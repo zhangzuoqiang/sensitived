@@ -8,13 +8,13 @@ import java.util.Set;
 /**
  * 实现敏感词的过滤
  */
-public class SensitivewordFilter {
+public class SensitivedFilter {
 
     public static Map sensitiveWordMap = null;
     public static int minMatchTYpe = 1;      //最小匹配规则
     public static int maxMatchType = 2;      //最大匹配规则
 
-    public static SensitivewordFilter getInstance() {
+    public static SensitivedFilter getInstance() {
         return LazyHolder.INSTANCE;
     }
 
@@ -89,7 +89,7 @@ public class SensitivewordFilter {
                 matchFlag++;     //找到相应key，匹配标识+1
                 if ("1".equals(nowMap.get("isEnd"))) {       //如果为最后一个匹配规则,结束循环，返回匹配标识数
                     flag = true; //结束标志位为true
-                    if (SensitivewordFilter.minMatchTYpe == matchType) {    //最小规则，直接返回,最大规则还需继续查找
+                    if (SensitivedFilter.minMatchTYpe == matchType) {    //最小规则，直接返回,最大规则还需继续查找
                         break;
                     }
                 }
@@ -117,7 +117,7 @@ public class SensitivewordFilter {
     }
 
     private static class LazyHolder {
-        private static final SensitivewordFilter INSTANCE = new SensitivewordFilter();
+        private static final SensitivedFilter INSTANCE = new SensitivedFilter();
     }
 
 }

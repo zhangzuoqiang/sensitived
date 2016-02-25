@@ -1,5 +1,6 @@
 package com.jfinal.plugin.sensitived;
 
+import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.IPlugin;
 
 import java.io.BufferedReader;
@@ -14,9 +15,14 @@ import java.util.Set;
 
 public class SensitivedPlugin implements IPlugin {
 
-    private static final String WORD_FILE = "sensitived.txt";
+    private String wordFile;
 
     public SensitivedPlugin() {
+        this.wordFile = "sensitived.txt";
+    }
+
+    public SensitivedPlugin(String filename) {
+        this.wordFile = StrKit.isBlank(filename.trim()) ? "sensitived.txt" : filename;
     }
 
     @Override
@@ -46,7 +52,7 @@ public class SensitivedPlugin implements IPlugin {
      * @param keyWordSet 敏感词库
      */
     private void addSensitiveWordToHashMap(Set<String> keyWordSet) {
-        SensitivewordFilter.getInstance().sensitiveWordMap = new HashMap(keyWordSet.size()); // 初始化敏感词容器，减少扩容操作
+        SensitivedFilter.getInstance().sensitiveWordMap = new HashMap(keyWordSet.size()); // 初始化敏感词容器，减少扩容操作
         String key = null;
         Map<Object, Object> nowMap = null;
         Map<Object, Object> newWorMap = null;
@@ -54,7 +60,7 @@ public class SensitivedPlugin implements IPlugin {
         Iterator<String> iterator = keyWordSet.iterator();
         while (iterator.hasNext()) {
             key = iterator.next(); // 关键字
-            nowMap = SensitivewordFilter.getInstance().sensitiveWordMap;
+            nowMap = SensitivedFilter.getInstance().sensitiveWordMap;
             for (int i = 0; i < key.length(); i++) {
                 char keyChar = key.charAt(i); // 转换成char型
                 Object wordMap = nowMap.get(keyChar); // 获取
@@ -80,9 +86,9 @@ public class SensitivedPlugin implements IPlugin {
      */
     private Set<String> readSensitiveWordFile() throws Exception {
         Set<String> set = null;
-        InputStream in = SensitivedPlugin.class.getResourceAsStream("/" + WORD_FILE);
+        InputStream in = SensitivedPlugin.class.getResourceAsStream("/" + wordFile);
         if (in == null) {
-            throw new Exception("敏感词库文件不存在，请确认是敏感词文件 " + WORD_FILE + " 是否进行配置！");
+            throw new Exception("敏感词库文件不存在，请确认是敏感词文件 " + wordFile + " 是否进行配置！");
         }
         InputStreamReader read = new InputStreamReader(in, Charset.forName("UTF8"));
         try {
