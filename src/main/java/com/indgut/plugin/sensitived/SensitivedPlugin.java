@@ -1,4 +1,4 @@
-package com.jfinal.plugin.sensitived;
+package com.indgut.plugin.sensitived;
 
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.IPlugin;

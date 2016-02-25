@@ -1,7 +1,7 @@
-package com.jfinal.plugin.sensitived.test;
+package com.indgut.plugin.sensitived.test;
 
-import com.jfinal.plugin.sensitived.SensitivedPlugin;
-import com.jfinal.plugin.sensitived.SensitivedFilter;
+import com.indgut.plugin.sensitived.SensitivedFilter;
+import com.indgut.plugin.sensitived.SensitivedPlugin;
 
 import org.junit.Test;
 
@@ -25,5 +25,6 @@ public class SensitivedPluginTest {
         long endTime = System.currentTimeMillis();
         System.out.println("语句中包含敏感词的个数为：" + set.size() + "。包含：" + set);
         System.out.println("总共消耗时间为：" + (endTime - beginTime));
+        System.out.println(SensitivedFilter.getInstance().replace(string, 2, "*"));
     }
 }
