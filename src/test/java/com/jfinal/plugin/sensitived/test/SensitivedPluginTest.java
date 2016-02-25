@@ -18,7 +18,7 @@ public class SensitivedPluginTest {
         plugin.start();
 
         System.out.println("敏感词树的数量：" + SensitivewordFilter.getInstance().sensitiveWordMap.size());
-        String string = "这个是测试的字符串，中国人，是好人。五星的中国女人。中国人民啊";
+        String string = "这个是测试的字符串，中国人，是好人。五星的中国女人。中国人民啊。张首席，首席张，张瑞敏， 黑心家电";
         System.out.println("待检测语句字数：" + string.length());
         long beginTime = System.currentTimeMillis();
         Set<String> set = SensitivewordFilter.getInstance().getSensitiveWord(string, 2);
