@@ -25,7 +25,7 @@ public class SensitivedFilter {
      * @param matchType 匹配规则&nbsp;1：最小匹配规则，2：最大匹配规则
      * @return 若包含返回true，否则返回false
      */
-    public static boolean isContaintSensitiveWord(String txt, int matchType) {
+    public boolean isContaintSensitiveWord(String txt, int matchType) {
         boolean flag = false;
         for (int i = 0; i < txt.length(); i++) {
             int matchFlag = CheckSensitiveWord(txt, i, matchType); //判断是否包含敏感字符
@@ -43,7 +43,7 @@ public class SensitivedFilter {
      * @param matchType 匹配规则&nbsp;1：最小匹配规则，2：最大匹配规则
      * @return 敏感词set
      */
-    public static Set<String> getSensitiveWord(String txt, int matchType) {
+    public Set<String> getSensitiveWord(String txt, int matchType) {
         Set<String> sensitiveWordList = new HashSet<String>();
         for (int i = 0; i < txt.length(); i++) {
             int length = CheckSensitiveWord(txt, i, matchType);    //判断是否包含敏感字符
@@ -60,7 +60,7 @@ public class SensitivedFilter {
      *
      * @param replaceChar 替换字符，默认*
      */
-    public static String replaceSensitiveWord(String txt, int matchType, String replaceChar) {
+    public String replaceSensitiveWord(String txt, int matchType, String replaceChar) {
         String resultTxt = txt;
         Set<String> set = getSensitiveWord(txt, matchType);     //获取所有的敏感词
         Iterator<String> iterator = set.iterator();
@@ -77,7 +77,7 @@ public class SensitivedFilter {
     /**
      * 检查文字中是否包含敏感字符，检查规则如下：<br> 如果存在，则返回敏感词字符的长度，不存在返回0
      */
-    public static int CheckSensitiveWord(String txt, int beginIndex, int matchType) {
+    public int CheckSensitiveWord(String txt, int beginIndex, int matchType) {
         boolean flag = false;    //敏感词结束标识位：用于敏感词只有1位的情况
         int matchFlag = 0;     //匹配标识数默认为0
         char word = 0;
@@ -108,7 +108,7 @@ public class SensitivedFilter {
     /**
      * 获取替换字符串
      */
-    private static String getReplaceChars(String replaceChar, int length) {
+    private String getReplaceChars(String replaceChar, int length) {
         String resultReplace = replaceChar;
         for (int i = 1; i < length; i++) {
             resultReplace += replaceChar;
