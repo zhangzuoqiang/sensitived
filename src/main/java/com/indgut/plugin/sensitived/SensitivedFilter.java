@@ -1,5 +1,7 @@
 package com.indgut.plugin.sensitived;
 
+import com.jfinal.kit.StrKit;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -26,6 +28,9 @@ public class SensitivedFilter {
      * @return 若包含返回true，否则返回false
      */
     public boolean isContaint(String txt, int matchType) {
+        if (StrKit.isBlank(txt.trim())) {
+            return false;
+        }
         boolean flag = false;
         for (int i = 0; i < txt.length(); i++) {
             int matchFlag = checkSensitiveWord(txt, i, matchType); //判断是否包含敏感字符
@@ -44,6 +49,9 @@ public class SensitivedFilter {
      * @return 敏感词set
      */
     public Set<String> getSensitiveWord(String txt, int matchType) {
+        if (StrKit.isBlank(txt.trim())) {
+            return new HashSet<String>();
+        }
         Set<String> sensitiveWordList = new HashSet<String>();
         for (int i = 0; i < txt.length(); i++) {
             int length = checkSensitiveWord(txt, i, matchType);    //判断是否包含敏感字符
@@ -55,12 +63,27 @@ public class SensitivedFilter {
         return sensitiveWordList;
     }
 
+    public String replaceMin(String txt) {
+        return replace(txt, MinMatchType, "*");
+    }
+
+    public String replaceMax(String txt) {
+        return replace(txt, MaxMatchType, "*");
+    }
+
+    public String replace(String txt, int matchType) {
+        return replace(txt, matchType, "*");
+    }
+
     /**
      * 替换敏感字字符
      *
      * @param replaceChar 替换字符，默认*
      */
     public String replace(String txt, int matchType, String replaceChar) {
+        if (StrKit.isBlank(txt.trim())) {
+            return txt;
+        }
         String resultTxt = txt;
         Set<String> set = getSensitiveWord(txt, matchType);     //获取所有的敏感词
         Iterator<String> iterator = set.iterator();
@@ -78,6 +101,9 @@ public class SensitivedFilter {
      * 检查文字中是否包含敏感字符，检查规则如下：<br> 如果存在，则返回敏感词字符的长度，不存在返回0
      */
     public int checkSensitiveWord(String txt, int beginIndex, int matchType) {
+        if (StrKit.isBlank(txt.trim())) {
+            return 0;
+        }
         boolean flag = false;    //敏感词结束标识位：用于敏感词只有1位的情况
         int matchFlag = 0;     //匹配标识数默认为0
         char word = 0;
@@ -109,7 +135,7 @@ public class SensitivedFilter {
      * 获取替换字符串
      */
     private String getReplaceChars(String replaceChar, int length) {
-        String resultReplace = replaceChar;
+        String resultReplace = StrKit.isBlank(replaceChar.trim()) ? "*" : replaceChar;
         for (int i = 1; i < length; i++) {
             resultReplace += replaceChar;
         }
